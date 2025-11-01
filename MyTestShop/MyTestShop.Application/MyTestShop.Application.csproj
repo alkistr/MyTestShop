@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="13.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Customers\DeleteCustmer\" />
+    <Folder Include="Customers\GetCustomer\" />
+    <Folder Include="Customers\UpdateCustomer\" />
+    <Folder Include="Item\" />
+    <Folder Include="Orders\CreateOrders\" />
+    <Folder Include="Orders\DeleteOrders\" />
+    <Folder Include="Orders\GetOrders\" />
+    <Folder Include="Orders\UpdateOrders\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MyTestShop.Domain\MyTestShop.Domain.csproj" />
+    <ProjectReference Include="..\MyTestShop.Infrastructure\MyTestShop.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
