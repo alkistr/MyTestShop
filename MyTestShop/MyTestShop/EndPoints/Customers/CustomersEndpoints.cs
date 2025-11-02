@@ -8,21 +8,21 @@ using MyTestShop.Domain.Abstractions;
 
 namespace MyTestShop.EndPoints.Customers
 {
-    public static class CustomersEndpoints
+    internal static class CustomersEndpoints
     {
-        public static IEndpointRouteBuilder MapCustomersEndpoints(this IEndpointRouteBuilder builder)
+        internal static IEndpointRouteBuilder MapCustomersEndpoints(this IEndpointRouteBuilder builder)
         {
             var routeGroupBuilder = builder.MapGroup("api/customers");//.RequireAuthorization();
 
             routeGroupBuilder.MapGet("{id}", GetCustomer);
             routeGroupBuilder.MapPost("/", CreateCustomer);
-            routeGroupBuilder.MapPut("{id}", UpdateCustomer);
+            routeGroupBuilder.MapPut("/", UpdateCustomer);
             routeGroupBuilder.MapDelete("{id}", DeleteCustomer);
 
             return builder;
         }
 
-        public static async Task<Results<Ok<Result<GetCustomerQueryResponse>>, NotFound<Result<GetCustomerQueryResponse>>>> GetCustomer(
+        internal static async Task<Results<Ok<Result<GetCustomerQueryResponse>>, NotFound<Result<GetCustomerQueryResponse>>>> GetCustomer(
             int customerId,
             ISender sender,
             CancellationToken cancellationToken)
@@ -33,7 +33,7 @@ namespace MyTestShop.EndPoints.Customers
             return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.NotFound(result);
         }
 
-        public static async Task<Results<Ok<Result>, NotFound>> CreateCustomer(
+        internal static async Task<Results<Ok<Result>, BadRequest>> CreateCustomer(
             CreateCustomerRequest request,
             ISender sender,
             CancellationToken cancellationToken)
@@ -47,10 +47,10 @@ namespace MyTestShop.EndPoints.Customers
 
             var result = await sender.Send(command, cancellationToken);
 
-            return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.NotFound();
+            return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.BadRequest();
         }
 
-        public static async Task<Results<Ok<Result>, NotFound>> UpdateCustomer(
+        internal static async Task<Results<Ok<Result>, NotFound>> UpdateCustomer(
             UpdateCustomerRequest request,
             ISender sender,
             CancellationToken cancellationToken)
@@ -68,7 +68,7 @@ namespace MyTestShop.EndPoints.Customers
             return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.NotFound();
         }
 
-        public static async Task<Results<Ok<Result>, NotFound>> DeleteCustomer(
+        internal static async Task<Results<Ok<Result>, NotFound>> DeleteCustomer(
             int customerId,
             ISender sender,
             CancellationToken cancellationToken)

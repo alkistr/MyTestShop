@@ -24,5 +24,20 @@ namespace MyTestShop.Domain.Orders
                 _overrideTotalPrice = value;
             }
         }
+
+        public static Order CreateNew(List<Item> items)
+        {
+            return new Order
+            {
+                Items = items,
+                OrderDate = DateTime.UtcNow,
+            };
+        }
+
+        public static Order Update(Order existingOrder, List<Item> newItems)
+        {
+            existingOrder.Items = newItems;
+            return existingOrder;
+        }
     }
 }

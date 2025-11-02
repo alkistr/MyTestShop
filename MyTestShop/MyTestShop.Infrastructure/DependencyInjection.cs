@@ -28,6 +28,8 @@ namespace MyTestShop.Infrastructure
             });
 
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
             services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<MyTestShopDbContext>());
         }

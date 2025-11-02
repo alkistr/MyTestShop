@@ -2,6 +2,7 @@
 using MyTestShop.Domain.Abstractions;
 using MyTestShop.Domain.Customers;
 using MyTestShop.Domain.Items;
+using MyTestShop.Domain.Orders;
 using MyTestShop.Domain.Products;
 
 namespace MyTestShop.Infrastructure
@@ -9,6 +10,7 @@ namespace MyTestShop.Infrastructure
     public class MyTestShopDbContext : DbContext, IUnitOfWork
     {
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Item> Items { get; set; }
 

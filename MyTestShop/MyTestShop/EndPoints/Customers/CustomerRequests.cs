@@ -1,13 +1,13 @@
 ﻿namespace MyTestShop.EndPoints.Customers
 {
-    public sealed record CreateCustomerRequest(
+    internal sealed record CreateCustomerRequest(
         string FirstName,
         string LastName,
         string Address,
         string PostalCode
     );
 
-    public sealed record UpdateCustomerRequest(
+    internal sealed record UpdateCustomerRequest(
         int Id,
         string FirstName,
         string LastName,

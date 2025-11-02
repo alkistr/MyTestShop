@@ -24,9 +24,9 @@ namespace MyTestShop.Application.Customers.DeleteCustmer
             }
             _customerRepository.Delete(customer);
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return Result.Success("Successfully deleted customer.");
+            return result > 0 ? Result.Success("Successfully deleted customer.") : Result.Failure("Failed to delete customer.");
         }
     }
 }

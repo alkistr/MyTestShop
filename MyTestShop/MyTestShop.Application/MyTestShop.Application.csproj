@@ -12,11 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Item\" />
-    <Folder Include="Orders\CreateOrders\" />
     <Folder Include="Orders\DeleteOrders\" />
     <Folder Include="Orders\GetOrders\" />
-    <Folder Include="Orders\UpdateOrders\" />
   </ItemGroup>
 
   <ItemGroup>

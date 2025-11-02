@@ -1,6 +1,7 @@
 using MyTestShop.Application;
 using MyTestShop.Infrastructure;
 using MyTestShop.EndPoints.Customers;
+using MyTestShop.EndPoints.Orders;
 
 namespace MyTestShop
 {
@@ -38,6 +39,7 @@ namespace MyTestShop
             //app.UseAuthorization();
 
             app.MapCustomersEndpoints();
+            app.MapOrdersEndpoints();
 
             app.Run();
         }

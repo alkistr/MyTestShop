@@ -11,6 +11,18 @@ namespace MyTestShop.Domain.Customers
         public string PostalCode { get; set; }
         public List<Order> Orders { get; set; }
 
+        public static Customer CreateNew(string firstName, string lastName, string address, string postalCode)
+        {
+            return new Customer
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Address = address,
+                PostalCode = postalCode,
+                Orders = new List<Order>()
+            };
+        }
+
         public override string ToString()
         {
             return $"{FirstName} {LastName}, Address: {Address}, PostalCode: {PostalCode}";

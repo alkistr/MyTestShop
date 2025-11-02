@@ -20,14 +20,12 @@ namespace MyTestShop.Application.Customers.CreateCustomer
         public async Task<Result> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
             // Simulate customer creation
-            var customer = new Customer
-            {
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Address = request.Address,
-                PostalCode = request.PostalCode,
-                Orders = new List<Order>()
-            };
+            var customer = Customer.CreateNew(
+                request.FirstName,
+                request.LastName,
+                request.Address,
+                request.PostalCode
+            );
 
             _customerRepository.Add(customer);
             var result = await _unitOfWork.SaveChangesAsync(cancellationToken);
