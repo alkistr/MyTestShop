@@ -8,7 +8,10 @@ namespace MyTestShop.EndPoints.Orders
     );
 
     internal sealed record UpdateOrderRequest(
-        int OrderId,
         List<OrderItem> Items
+    );
+
+    internal sealed record CancelOrderRequest(
+        bool CancelOrder
     );
 }

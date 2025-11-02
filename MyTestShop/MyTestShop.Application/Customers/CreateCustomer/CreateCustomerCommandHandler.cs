@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using MyTestShop.Domain.Abstractions;
 using MyTestShop.Domain.Customers;
-using MyTestShop.Domain.Orders;
 using MyTestShop.Infrastructure.Repositories;
 
 namespace MyTestShop.Application.Customers.CreateCustomer

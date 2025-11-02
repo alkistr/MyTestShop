@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using MyTestShop.Application.Customers.CreateCustomer;
-using MyTestShop.Application.Customers.DeleteCustmer;
+using MyTestShop.Application.Customers.DeleteCustomer;
 using MyTestShop.Application.Customers.GetCustomer;
 using MyTestShop.Application.Customers.UpdateCustomer;
 using MyTestShop.Domain.Abstractions;

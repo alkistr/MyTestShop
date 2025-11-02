@@ -2,7 +2,7 @@
 using MyTestShop.Domain.Abstractions;
 using MyTestShop.Infrastructure.Repositories;
 
-namespace MyTestShop.Application.Customers.DeleteCustmer
+namespace MyTestShop.Application.Customers.DeleteCustomer
 {
     public class DeleteCustomerCommandHandler : IRequestHandler<DeleteCustomerCommand, Result>
     {

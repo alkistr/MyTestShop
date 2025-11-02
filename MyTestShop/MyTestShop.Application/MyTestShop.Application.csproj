@@ -12,11 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Orders\DeleteOrders\" />
-    <Folder Include="Orders\GetOrders\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MyTestShop.Domain\MyTestShop.Domain.csproj" />
     <ProjectReference Include="..\MyTestShop.Infrastructure\MyTestShop.Infrastructure.csproj" />
   </ItemGroup>

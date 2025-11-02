@@ -7,6 +7,7 @@ namespace MyTestShop.Domain.Orders
         public int Id { get; set; }
         public DateTime OrderDate { get; set; }
         public List<Item> Items { get; set; }
+        public bool Cancelled { get; set; }
 
         private decimal? _overrideTotalPrice;
         public decimal TotalPrice
@@ -31,6 +32,7 @@ namespace MyTestShop.Domain.Orders
             {
                 Items = items,
                 OrderDate = DateTime.UtcNow,
+                Cancelled = false
             };
         }
 

@@ -3,11 +3,6 @@ using MyTestShop.Domain.Abstractions;
 using MyTestShop.Domain.Items;
 using MyTestShop.Domain.Orders;
 using MyTestShop.Infrastructure.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyTestShop.Application.Orders.UpdateOrders
 {
@@ -16,6 +11,13 @@ namespace MyTestShop.Application.Orders.UpdateOrders
         private readonly IOrderRepository _orderRepository;
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
+
+        public UpdateOrderCommandHandler(IOrderRepository orderRepository, IProductRepository productRepository, IUnitOfWork unitOfWork)
+        {
+            _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
+            _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        }
 
         public async Task<Result> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
         {
