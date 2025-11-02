@@ -6,7 +6,7 @@
         {
             var routeGroupBuilder = builder.MapGroup("api/orders").RequireAuthorization();
 
-            routeGroupBuilder.MapGet("{id}", GetOrder);
+            //routeGroupBuilder.MapGet("{id}", GetOrder);
 
             return builder;
         }

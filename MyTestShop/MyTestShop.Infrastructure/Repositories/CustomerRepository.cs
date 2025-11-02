@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyTestShop.Domain.Customers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MyTestShop.Infrastructure.Repositories
 {
@@ -21,15 +16,22 @@ namespace MyTestShop.Infrastructure.Repositories
             _dbContext.Customers.Add(customer);
         }
 
-        public void Remove(Customer customer)
+        public void Delete(Customer customer)
         {
             _dbContext.Customers.Remove(customer);
+        }
+
+        public async Task<Customer> GetByIdAsync(int id, CancellationToken cancellationToken)
+        {
+            return await _dbContext.Customers
+                .FirstOrDefaultAsync(customer => customer.Id == id, cancellationToken);
         }
     }
     
     public interface ICustomerRepository
     {
         void Add(Customer customer);
-        void Remove(Customer customer);
+        Task<Customer> GetByIdAsync(int id, CancellationToken cancellationToken);
+        void Delete(Customer customer);
     }
 }

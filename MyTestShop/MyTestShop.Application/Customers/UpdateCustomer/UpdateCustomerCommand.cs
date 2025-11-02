@@ -1,9 +1,10 @@
 ﻿using MediatR;
 using MyTestShop.Domain.Abstractions;
 
-namespace MyTestShop.Application.Customers.CreateCustomer
+namespace MyTestShop.Application.Customers.UpdateCustomer
 {
-    public sealed record CreateCustomerCommand(
+    public sealed record UpdateCustomerCommand(
+        int Id,
         string FirstName,
         string LastName,
         string Address,

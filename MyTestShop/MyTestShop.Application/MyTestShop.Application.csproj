@@ -12,9 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Customers\DeleteCustmer\" />
-    <Folder Include="Customers\GetCustomer\" />
-    <Folder Include="Customers\UpdateCustomer\" />
     <Folder Include="Item\" />
     <Folder Include="Orders\CreateOrders\" />
     <Folder Include="Orders\DeleteOrders\" />

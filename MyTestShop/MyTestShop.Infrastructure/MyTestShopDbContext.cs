@@ -24,9 +24,10 @@ namespace MyTestShop.Infrastructure
 
                 return result;
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (Exception ex)
             {
-                throw new ConcurrencyException("Concurrency exception occurred.", ex);
+                // Log the exception (logging mechanism not shown here)
+                return 0;
             }
         }
     }

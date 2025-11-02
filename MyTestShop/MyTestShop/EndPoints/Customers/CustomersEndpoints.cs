@@ -1,7 +1,9 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http.HttpResults;
 using MyTestShop.Application.Customers.CreateCustomer;
+using MyTestShop.Application.Customers.DeleteCustmer;
+using MyTestShop.Application.Customers.GetCustomer;
+using MyTestShop.Application.Customers.UpdateCustomer;
 using MyTestShop.Domain.Abstractions;
 
 namespace MyTestShop.EndPoints.Customers
@@ -10,26 +12,25 @@ namespace MyTestShop.EndPoints.Customers
     {
         public static IEndpointRouteBuilder MapCustomersEndpoints(this IEndpointRouteBuilder builder)
         {
-            var routeGroupBuilder = builder.MapGroup("api/customers").RequireAuthorization();
+            var routeGroupBuilder = builder.MapGroup("api/customers");//.RequireAuthorization();
 
             routeGroupBuilder.MapGet("{id}", GetCustomer);
+            routeGroupBuilder.MapPost("/", CreateCustomer);
+            routeGroupBuilder.MapPut("{id}", UpdateCustomer);
+            routeGroupBuilder.MapDelete("{id}", DeleteCustomer);
 
             return builder;
         }
 
-        public static async Task<Results<Ok<Result>, NotFound>> GetCustomer(int id,
-        ISender sender,
-        CancellationToken cancellationToken)
+        public static async Task<Results<Ok<Result<GetCustomerQueryResponse>>, NotFound<Result<GetCustomerQueryResponse>>>> GetCustomer(
+            int customerId,
+            ISender sender,
+            CancellationToken cancellationToken)
         {
-            // Simulate fetching customer data
-            var customer = new
-            {
-                Id = id,
-                Name = "John Doe",
-                Email = "john.doe@example.com"
-            };
+            var query = new GetCustomerQuery(customerId);
+            var result = await sender.Send(query, cancellationToken);
 
-            return Results.Ok(customer);
+            return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.NotFound(result);
         }
 
         public static async Task<Results<Ok<Result>, NotFound>> CreateCustomer(
@@ -38,6 +39,23 @@ namespace MyTestShop.EndPoints.Customers
             CancellationToken cancellationToken)
         {
             var command = new CreateCustomerCommand(
+                request.FirstName,
+                request.LastName,
+                request.Address,
+                request.PostalCode
+            );
+
+            var result = await sender.Send(command, cancellationToken);
+
+            return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.NotFound();
+        }
+
+        public static async Task<Results<Ok<Result>, NotFound>> UpdateCustomer(
+            UpdateCustomerRequest request,
+            ISender sender,
+            CancellationToken cancellationToken)
+        {
+            var command = new UpdateCustomerCommand(
                 request.Id,
                 request.FirstName,
                 request.LastName,
@@ -50,30 +68,18 @@ namespace MyTestShop.EndPoints.Customers
             return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.NotFound();
         }
 
-        public static async Task<Results<Ok<Result>, NotFound>> UpdateCustomer(int id)
+        public static async Task<Results<Ok<Result>, NotFound>> DeleteCustomer(
+            int customerId,
+            ISender sender,
+            CancellationToken cancellationToken)
         {
-            // Simulate fetching customer data
-            var customer = new
-            {
-                Id = id,
-                Name = "John Doe",
-                Email = "john.doe@example.com"
-            };
+            var command = new DeleteCustomerCommand(
+                customerId
+            );
 
-            return TypedResults.Ok();
-        }
+            var result = await sender.Send(command, cancellationToken);
 
-        public static async Task<Results<Ok<Result>, NotFound>> DeleteCustomer(int id)
-        {
-            // Simulate fetching customer data
-            var customer = new
-            {
-                Id = id,
-                Name = "John Doe",
-                Email = "john.doe@example.com"
-            };
-
-            return Results.Ok(customer);
+            return result.IsSuccess ? TypedResults.Ok(result) : TypedResults.NotFound();
         }
     }
 }

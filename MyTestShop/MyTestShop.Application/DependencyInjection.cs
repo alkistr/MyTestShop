@@ -6,7 +6,10 @@ namespace MyTestShop.Application
     {
         public static void RegisterApplicationServices(this IServiceCollection services)
         {
-            // Register application services here
+            services.AddMediatR(configuration =>
+            {
+                configuration.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
+            });
         }
     }
 }
