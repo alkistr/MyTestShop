@@ -24,6 +24,9 @@ namespace MyTestShop.Infrastructure.Repositories
         public async Task<Customer> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             return await _dbContext.Customers
+                .Include(customer => customer.Orders)
+                .ThenInclude(order => order.Items)
+                .ThenInclude(item => item.Product)
                 .FirstOrDefaultAsync(customer => customer.Id == id, cancellationToken);
         }
     }
