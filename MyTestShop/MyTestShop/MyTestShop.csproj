@@ -9,6 +9,10 @@
   <ItemGroup>
     <PackageReference Include="MediatR" Version="13.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.10" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="9.0.6" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="9.0.6" />
@@ -18,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MyTestShop.Application\MyTestShop.Application.csproj" />
     <ProjectReference Include="..\MyTestShop.Domain\MyTestShop.Domain.csproj" />
+    <ProjectReference Include="..\MyTestShop.Infrastructure\MyTestShop.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

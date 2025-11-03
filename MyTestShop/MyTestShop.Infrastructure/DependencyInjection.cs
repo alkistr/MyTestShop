@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Runtime.InteropServices;
 using MyTestShop.Domain.Abstractions;
 using MyTestShop.Infrastructure.Repositories;
 
@@ -11,9 +12,22 @@ namespace MyTestShop.Infrastructure
         public static void RegisterInfrastructureServices(this IServiceCollection services,
             IConfiguration configuration)
         {
-            var connectionString =
-                configuration.GetConnectionString("Database") ??
-                throw new ArgumentNullException(nameof(configuration));
+            var connectionString = configuration.GetConnectionString("Database");
+
+            // If running on Windows and the developer hasn't changed the connection string,
+            // prefer LocalDB so the project "just works" when opened in Visual Studio.
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                if (string.IsNullOrWhiteSpace(connectionString) || connectionString.Contains("localhost", StringComparison.OrdinalIgnoreCase))
+                {
+                    connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=MyTestShopDb;Trusted_Connection=True;MultipleActiveResultSets=true";
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new ArgumentNullException("Database connection string is not configured.");
+            }
 
             services.AddDbContext<MyTestShopDbContext>(options =>
             {

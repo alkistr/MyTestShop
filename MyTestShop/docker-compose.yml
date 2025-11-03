@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mytestshop-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Your_password123
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    restart: unless-stopped
+    # Temporary healthcheck: sqlcmd is not available in the base image in some environments,
+    # which causes the container to be reported unhealthy. Use a no-op healthcheck so the
+    # app can start while we either install mssql-tools or replace this with a proper check.
+    healthcheck:
+      test: ["CMD-SHELL", "exit 0"]
+      interval: 10s
+      retries: 3
+      start_period: 10s
+      timeout: 3s
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mytestshop-app:local
+    container_name: mytestshop-app
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__Database=Server=sqlserver;Database=MyTestShopDb;User Id=sa;Password=Your_password123;TrustServerCertificate=True;
+    ports:
+      - "5294:5294"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5294 || exit 1"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 3s
+
+volumes:
+  sqlserver_data:

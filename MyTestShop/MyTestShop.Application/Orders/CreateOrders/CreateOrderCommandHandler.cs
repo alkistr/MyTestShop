@@ -1,8 +1,10 @@
 ﻿using MediatR;
 using MyTestShop.Domain.Abstractions;
+using System.Linq;
 using MyTestShop.Domain.Orders;
 using MyTestShop.Infrastructure.Repositories;
 using MyTestShop.Domain.Items;
+using MyTestShop.Domain.Products;
 
 namespace MyTestShop.Application.Orders.CreateOrders
 {
@@ -13,10 +15,11 @@ namespace MyTestShop.Application.Orders.CreateOrders
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateOrderCommandHandler(IOrderRepository orderRepository, ICustomerRepository customerRepository, IUnitOfWork unitOfWork)
+        public CreateOrderCommandHandler(IOrderRepository orderRepository, ICustomerRepository customerRepository, IProductRepository productRepository, IUnitOfWork unitOfWork)
         {
             _orderRepository = orderRepository ?? throw new ArgumentNullException(nameof(orderRepository));
             _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
+            _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
             _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
@@ -31,11 +34,28 @@ namespace MyTestShop.Application.Orders.CreateOrders
 
             var productDictionary = await _productRepository.LoadProductsAsync();
 
+            // Ensure referenced products exist
+            var missingProductIds = request.Items
+                .Select(i => i.ProductId)
+                .Where(id => !productDictionary.ContainsKey(id))
+                .Distinct()
+                .ToList();
+
+            if (missingProductIds.Any())
+            {
+                return Result.Failure($"Products not found: {string.Join(',', missingProductIds)}");
+            }
+
             var order = Order.CreateNew(
                 request.Items.Select(item => Item.CreateNew(
-                    productDictionary.GetValueOrDefault(item.ProductId), // if the product is not found, null will be passed, this should be handled
+                    productDictionary[item.ProductId],
                     item.Quantity)).ToList()
             );
+
+            if (customer.Orders == null)
+            {
+                customer.Orders = new List<Order>();
+            }
 
             customer.Orders.Add(order);
 

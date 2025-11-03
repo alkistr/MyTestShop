@@ -1,5 +1,18 @@
 {
   "profiles": {
+    "debug": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_LOGGING__LOGLEVEL__DEFAULT": "Debug",
+        "ASPNETCORE_LOGGING__LOGLEVEL__MICROSOFT": "Information",
+        "ASPNETCORE_LOGGING__LOGLEVEL__ENTITYFRAMEWORKCORE": "Information"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "http://localhost:5294",
+      "launchBrowser": true,
+      "launchUrl": "swagger"
+    },
     "http": {
       "commandName": "Project",
       "environmentVariables": {

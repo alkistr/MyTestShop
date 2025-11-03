@@ -2,12 +2,14 @@ using MyTestShop.Application;
 using MyTestShop.Infrastructure;
 using MyTestShop.EndPoints.Customers;
 using MyTestShop.EndPoints.Orders;
+using MyTestShop.EndPoints.Database;
+using MyTestShop.Database;
 
 namespace MyTestShop
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +23,17 @@ namespace MyTestShop
             builder.Services.RegisterApplicationServices();
             builder.Services.RegisterInfrastructureServices(builder.Configuration);
 
-
             var app = builder.Build();
+
+            // Seed database in development environment
+            if (app.Environment.IsDevelopment())
+            {
+                using (var scope = app.Services.CreateScope())
+                {
+                    var context = scope.ServiceProvider.GetRequiredService<MyTestShopDbContext>();
+                    await DatabaseSeeder.SeedDataAsync(context);
+                }
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -40,8 +51,9 @@ namespace MyTestShop
 
             app.MapCustomersEndpoints();
             app.MapOrdersEndpoints();
+            app.MapDatabaseEndpoints();
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }
