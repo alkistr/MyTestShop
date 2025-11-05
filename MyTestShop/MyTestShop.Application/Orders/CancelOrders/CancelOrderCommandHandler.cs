@@ -4,7 +4,7 @@ using MyTestShop.Infrastructure.Repositories;
 
 namespace MyTestShop.Application.Orders.CancelOrders
 {
-    internal class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, Result>
+    public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, Result>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IUnitOfWork _unitOfWork;
