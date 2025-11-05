@@ -39,6 +39,7 @@ namespace MyTestShop.Domain.Orders
         public static Order Update(Order existingOrder, List<Item> newItems)
         {
             existingOrder.Items = newItems;
+            existingOrder.TotalPrice = newItems.Sum(i => (i?.Product?.Price ?? 0m) * i.Quantity);
             return existingOrder;
         }
     }

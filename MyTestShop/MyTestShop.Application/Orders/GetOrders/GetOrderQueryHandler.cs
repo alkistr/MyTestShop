@@ -27,7 +27,7 @@ public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, Result<GetOrd
             order.Id,
             order.OrderDate,
             order.Items.Select(i => new OrderItem(i.Product.Id, i.Quantity)).ToList(),
-            order.Items.Sum(i => i.Product.Price * i.Quantity),
+            order.TotalPrice,//Items.Sum(i => i.Product.Price * i.Quantity),
             order.Cancelled
         );
 

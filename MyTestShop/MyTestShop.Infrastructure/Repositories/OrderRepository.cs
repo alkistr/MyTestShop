@@ -1,4 +1,5 @@
-﻿using MyTestShop.Domain.Orders;
+﻿using Microsoft.EntityFrameworkCore;
+using MyTestShop.Domain.Orders;
 
 namespace MyTestShop.Infrastructure.Repositories
 {
@@ -14,7 +15,9 @@ namespace MyTestShop.Infrastructure.Repositories
         public async Task<Order> GetOrderByIdAsync(int orderId, CancellationToken cancellationToken)
         {
             return await _dbContext.Orders
-                .FindAsync(orderId, cancellationToken);
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Product)
+                .FirstOrDefaultAsync(o => o.Id == orderId, cancellationToken);
         }
     }
 
